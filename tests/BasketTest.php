@@ -3,7 +3,9 @@ use PHPUnit\Framework\TestCase;
 use AcmeWidget\Basket;
 use AcmeWidget\ProductCatalogue;
 use AcmeWidget\DeliveryFeeRule;
-use AcmeWidget\Offer;
+use AcmeWidget\Offer\OfferManager;
+use AcmeWidget\Offer\BuyRedGetSecondHalfPriceOffer;
+
 
 class BasketTest extends TestCase
 {
@@ -12,7 +14,11 @@ class BasketTest extends TestCase
         return new Basket( 
             new ProductCatalogue(), 
             new DeliveryFeeRule(), 
-            new Offer()
+            new OfferManager(
+                [
+                    new BuyRedGetSecondHalfPriceOffer( new ProductCatalogue() ),
+                ]
+            )
         );
     }
     public function test_total_under_50()

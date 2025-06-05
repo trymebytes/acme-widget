@@ -3,22 +3,23 @@ namespace AcmeWidget;
 
 use AcmeWidget\ProductCatalogue;
 use AcmeWidget\DeliveryFeeRule;
+use AcmeWidget\Offer\OfferManager;
 use Exception;
 
 class Basket {
     private array $basket_items = [];
     private ProductCatalogue $product_catalogue;
     private DeliveryFeeRule $delivery_rule;
-    private Offer $offer;
+    private OfferManager $offer_manager;
 
     public function __construct(
         ProductCatalogue $product_catalogue,
         DeliveryFeeRule $delivery_rule,
-        Offer $offer
+        OfferManager $offer_manager
         ) {
         $this->product_catalogue = $product_catalogue;
         $this->delivery_rule = $delivery_rule;
-        $this->offer = $offer;
+        $this->offer_manager = $offer_manager;
     }
 
     public function add( string $product_code): void {
@@ -38,7 +39,7 @@ class Basket {
             $product = $this->product_catalogue->getProduct($product_code);
             $sub_total += $product['price'] * $quantity;
         }
-        $after_offer = $this->offer->apply_offer($sub_total, $this->basket_items);
+        $after_offer = $this->offer_manager->apply_offers($sub_total, $this->basket_items);
         $total = $this->delivery_rule->apply_delivery_fee($after_offer);
 
         return floor($total * 100) / 100;
