@@ -18,6 +18,13 @@ class BuyRedGetSecondHalfPriceOffer implements OfferInterface
         $this->product_catalogue = $product_catalogue;
     }
 
+    /**
+     * Apply the offer to the basket
+     *
+     * @param float $total The current total before applying this offer
+     * @param array<string, int> $basket_items Map of product codes to quantities
+     * @return float The new total after applying this offer
+     */
     public function apply(float $total, array $basket_items): float
     {
         if (isset($basket_items['R01']) && $basket_items['R01'] >= 2) {

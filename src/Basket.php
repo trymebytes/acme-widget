@@ -7,6 +7,7 @@ use AcmeWidget\Offer\OfferManager;
 use Exception;
 
 class Basket {
+    /** @var array<string, int> Map of product codes to quantities */
     private array $basket_items = [];
     private ProductCatalogue $product_catalogue;
     private DeliveryFeeRule $delivery_rule;
@@ -48,7 +49,9 @@ class Basket {
         $sub_total = 0;
         foreach($this->basket_items as $product_code => $quantity) {
             $product = $this->product_catalogue->getProduct($product_code);
-            $sub_total += $product['price'] * $quantity;
+            if ($product) {
+                $sub_total += $product['price'] * $quantity;
+            }
         }
         $after_offer = $this->offer_manager->apply_offers($sub_total, $this->basket_items);
         $total = $this->delivery_rule->apply_delivery_fee($after_offer);

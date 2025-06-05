@@ -2,6 +2,7 @@
 namespace AcmeWidget;
 
 class DeliveryFeeRule {
+    /** @var array<int, array{max_total: float, fee: float}> */
     private array $delivery_fee_rules = [
         ['max_total' => 90, 'fee' => 2.95],
         ['max_total' => 50, 'fee' => 4.95],
