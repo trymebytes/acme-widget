@@ -22,6 +22,12 @@ class Basket {
         $this->offer_manager = $offer_manager;
     }
 
+    /**
+     * Add a product to the basket.
+     *
+     * @param string $product_code The product code to add.
+     * @throws Exception If the product is not found in the catalogue.
+     */
     public function add( string $product_code): void {
         if (! $this->product_catalogue->getProduct($product_code) ) {
             throw new Exception("Product not found in catalogue.");
@@ -33,6 +39,11 @@ class Basket {
         }
     }
 
+    /**
+     * Get the total cost of the items in the basket, including any applicable offers and delivery fees.
+     *
+     * @return float The total cost of the basket.
+     */
     public function total(): float {
         $sub_total = 0;
         foreach($this->basket_items as $product_code => $quantity) {

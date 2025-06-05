@@ -12,6 +12,13 @@ class ProductCatalogue {
         ];
        
     }
+
+    /**
+     * Get a product by its code.
+     *
+     * @param string $code The product code.
+     * @return array|null The product details or null if not found.
+     */
     public function getProduct(string $code): ?array {
         return $this->products[$code] ?? null;
     }
